@@ -76,15 +76,15 @@
     {
       "type": "browser",
       "url": "http://127.0.0.1:${PORT}",
-      "contains": "Electron Scaffold",
+      "contains": "SDLC Electron Scaffold",
       "timeout_seconds": 20
     }
   ],
   "artifacts": [
     ".vite/build/main.js",
     ".vite/build/preload.js",
-    "out/Electron Scaffold-win32-x64/resources/app.asar",
-    "out/Electron Scaffold-win32-x64/electron-scaffold.exe"
+    "out/SDLC Electron Scaffold-win32-x64/resources/app.asar",
+    "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe"
   ],
   "tests": {
     "unit": {

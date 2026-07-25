@@ -17,7 +17,7 @@ export const App = () => {
   return (
     <main className="shell">
       <p className="eyebrow">Electron Forge · React · Vite · TypeScript</p>
-      <h1>Electron Scaffold</h1>
+      <h1>SDLC Electron Scaffold</h1>
       <p className="lede">
         主进程、sandbox preload 和 renderer 已通过最小 typed IPC seam 连接。
       </p>

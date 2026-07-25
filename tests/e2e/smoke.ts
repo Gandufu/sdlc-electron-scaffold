@@ -1,28 +1,24 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 
 const findExecutable = (): string => {
-  const out = path.resolve('out');
-  const packageDirectory = fs.readdirSync(out)
-    .map((name) => path.join(out, name))
-    .find((candidate) => fs.statSync(candidate).isDirectory() && !candidate.endsWith('make'));
-  if (!packageDirectory) {
-    throw new Error('未找到 Electron Forge package 目录');
-  }
+  const packageDirectory = path.resolve(
+    'out',
+    `SDLC Electron Scaffold-${process.platform}-${process.arch}`,
+  );
   if (process.platform === 'win32') {
-    return path.join(packageDirectory, 'electron-scaffold.exe');
+    return path.join(packageDirectory, 'sdlc-electron-scaffold.exe');
   }
   if (process.platform === 'darwin') {
     return path.join(
       packageDirectory,
-      'Electron Scaffold.app',
+      'SDLC Electron Scaffold.app',
       'Contents',
       'MacOS',
-      'electron-scaffold',
+      'sdlc-electron-scaffold',
     );
   }
-  return path.join(packageDirectory, 'electron-scaffold');
+  return path.join(packageDirectory, 'sdlc-electron-scaffold');
 };
 
 const main = async (): Promise<void> => {

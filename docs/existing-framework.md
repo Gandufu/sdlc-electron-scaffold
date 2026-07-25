@@ -1,4 +1,4 @@
-# Electron Scaffold 既有框架
+# SDLC Electron Scaffold 既有框架
 
 ## 模块与依赖方向
 

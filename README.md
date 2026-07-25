@@ -1,4 +1,4 @@
-# Electron Scaffold
+# SDLC Electron Scaffold
 
 面向桌面项目的通用 Electron 脚手架。使用 Electron Forge、React、Vite、
 TypeScript、Vitest 与 Playwright，默认开启进程隔离、sandbox、CSP、IPC sender
