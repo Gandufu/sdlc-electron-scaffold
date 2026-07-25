@@ -8,6 +8,7 @@ import {
   session,
   shell,
 } from 'electron';
+import squirrelStartup from 'electron-squirrel-startup';
 import { registerIpc } from './ipc';
 import {
   isSafeExternalUrl,
@@ -19,6 +20,13 @@ declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
 const smokeTest = process.argv.includes('--smoke-test');
+
+if (squirrelStartup) {
+  app.quit();
+}
+app.setAppUserModelId(
+  'com.squirrel.sdlc_electron_scaffold.sdlc_electron_scaffold',
+);
 
 protocol.registerSchemesAsPrivileged([
   {

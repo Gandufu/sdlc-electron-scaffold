@@ -32,13 +32,21 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 
 ## 生命周期
 
-- 安装：`corepack pnpm install --frozen-lockfile`
-- 开发启动：`corepack pnpm start`
-- 编译打包：`corepack pnpm package`
-- 单元测试：`corepack pnpm test`
-- 真实 Electron 冒烟：`corepack pnpm test:e2e`
+- 安装：`pnpm install --frozen-lockfile`
+- 开发启动：`pnpm start`
+- 解包应用：`pnpm package`
+- Squirrel 内部产物：`pnpm make`
+- 单 EXE 最终交付物：`pnpm release`
+- 单元测试：`pnpm test`
+- 解包应用真实 Electron 冒烟：`pnpm test:e2e`
+- 安装器及安装后应用验收：`pnpm test:installer`
 
 `.sdlc-pipeline/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
 `.sdlc-pipeline/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
 契约。`docs/sdlc/init-report.*` 由真实 init 在本地生成且不纳入模板版本控制，不能手工改写为
 通过证据。
+
+Squirrel.Windows 在 `out/make` 生成 Setup.exe、`.nupkg` 和 `RELEASES`，`pnpm release`
+只把可独立安装的 Setup.exe 放入最终 `dist/`。安装器 E2E 会再把该文件复制到隔离目录，证明
+它不依赖旁边文件即可安装，并启动安装后的应用验证窗口、preload 与 IPC。模板开发构建默认
+未签名，生产发布必须由使用者接入自己的 Authenticode 证书。

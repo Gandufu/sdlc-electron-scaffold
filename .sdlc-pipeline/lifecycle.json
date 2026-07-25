@@ -19,30 +19,35 @@
       }
     },
     {
-      "name": "corepack",
-      "version": "bundled-with-node",
+      "name": "pnpm",
+      "version": ">=10.34.5",
       "required": true,
       "probe": {
-        "argv": ["corepack", "--version"],
-        "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "--version"],
+        "argv": ["pnpm", "--version"],
+        "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "--version"],
         "timeout_seconds": 15
+      },
+      "system_install": {
+        "argv": ["npm", "install", "--global", "pnpm@10.34.5"],
+        "windows_argv": ["cmd.exe", "/d", "/c", "npm", "install", "--global", "pnpm@10.34.5"],
+        "timeout_seconds": 900
       }
     }
   ],
   "commands": {
     "install": {
-      "argv": ["corepack", "pnpm", "install", "--frozen-lockfile"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "install", "--frozen-lockfile"],
+      "argv": ["pnpm", "install", "--frozen-lockfile"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "install", "--frozen-lockfile"],
       "timeout_seconds": 900
     },
     "compile": {
-      "argv": ["corepack", "pnpm", "package"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "package"],
+      "argv": ["pnpm", "release"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "release"],
       "timeout_seconds": 900
     },
     "start": {
-      "argv": ["corepack", "pnpm", "start"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "start"],
+      "argv": ["pnpm", "start"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "start"],
       "timeout_seconds": 90,
       "startup_grace_seconds": 5,
       "background": true
@@ -78,38 +83,47 @@
       "url": "http://127.0.0.1:${PORT}",
       "contains": "SDLC Electron Scaffold",
       "timeout_seconds": 20
+    },
+    {
+      "type": "command",
+      "command": {
+        "argv": ["pnpm", "exec", "tsx", "tests/e2e/smoke.ts"],
+        "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "exec", "tsx", "tests/e2e/smoke.ts"],
+        "timeout_seconds": 60
+      }
     }
   ],
   "artifacts": [
     ".vite/build/main.js",
     ".vite/build/preload.js",
     "out/SDLC Electron Scaffold-win32-x64/resources/app.asar",
-    "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe"
+    "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe",
+    "dist/SDLCElectronScaffoldSetup.exe"
   ],
   "tests": {
     "unit": {
-      "argv": ["corepack", "pnpm", "test"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "test"],
+      "argv": ["pnpm", "test"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test"],
       "timeout_seconds": 600
     },
     "integration": {
-      "argv": ["corepack", "pnpm", "typecheck"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "typecheck"],
+      "argv": ["pnpm", "typecheck"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
       "timeout_seconds": 600
     },
     "e2e": {
-      "argv": ["corepack", "pnpm", "test:e2e"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "test:e2e"],
+      "argv": ["pnpm", "test:installer"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test:installer"],
       "timeout_seconds": 900
     },
     "lint": {
-      "argv": ["corepack", "pnpm", "lint"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "lint"],
+      "argv": ["pnpm", "lint"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "lint"],
       "timeout_seconds": 600
     },
     "static_analysis": {
-      "argv": ["corepack", "pnpm", "audit", "--prod"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "audit", "--prod"],
+      "argv": ["pnpm", "audit", "--prod"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "audit", "--prod"],
       "timeout_seconds": 600
     }
   }

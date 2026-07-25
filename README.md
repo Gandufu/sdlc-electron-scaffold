@@ -1,7 +1,7 @@
 # SDLC Electron Scaffold
 
 面向桌面项目的通用 Electron 脚手架。使用 Electron Forge、React、Vite、
-TypeScript、Vitest 与 Playwright，默认开启进程隔离、sandbox、CSP、IPC sender
+TypeScript 与 Vitest，默认开启进程隔离、sandbox、CSP、IPC sender
 校验、权限拒绝策略和 Electron fuses。
 
 ## 模板身份与边界
@@ -22,9 +22,8 @@ TypeScript、Vitest 与 Playwright，默认开启进程隔离、sandbox、CSP、
 ## 安装与启动
 
 ```powershell
-corepack enable
-corepack pnpm install --frozen-lockfile
-corepack pnpm start
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
 `start` 会启动 Vite renderer、编译 main/preload 并拉起真实 Electron 窗口。
@@ -32,17 +31,27 @@ corepack pnpm start
 ## 验证与发布
 
 ```powershell
-corepack pnpm lint
-corepack pnpm typecheck
-corepack pnpm test
-corepack pnpm package
-corepack pnpm test:e2e
-corepack pnpm make
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm package
+pnpm test:e2e
+pnpm make
+pnpm release
+pnpm test:installer
 ```
 
 - `package` 生成可运行的解包应用到 `out/`。
 - `test:e2e` 对解包应用执行真实窗口、preload bridge 与 IPC 冒烟。
-- `make` 生成 Windows 安装产物。
+- `make` 生成 Windows Squirrel 内部产物。
+- `release` 从 Squirrel 产物生成最终交付目录；`dist/` 中只包含一个
+  `SDLCElectronScaffoldSetup.exe`。
+- `test:installer` 生成并安装该 `Setup.exe`，启动安装后的应用完成真实 Electron 冒烟，
+  最后卸载并清理测试安装。
+
+本地开发构建默认不携带 Authenticode 签名，可以用于自动验收，但不应直接作为正式公网发布
+版本。生产发布必须在 `forge.config.ts` 中接入组织自己的 Windows 代码签名证书，并通过环境
+变量或 CI secret 注入证书密码，不能把证书或密码提交到模板仓库。
 
 ## SDLC 生命周期契约
 

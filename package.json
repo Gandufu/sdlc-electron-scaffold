@@ -3,19 +3,23 @@
   "productName": "SDLC Electron Scaffold",
   "version": "1.0.0",
   "description": "A secure Electron Forge scaffold with React, Vite and TypeScript.",
+  "author": "SDLC Electron Scaffold Contributors",
   "private": true,
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "release": "pnpm make && tsx scripts/prepare-release.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "pnpm package && tsx tests/e2e/smoke.ts",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm package"
+    "test:installer": "pnpm release && tsx tests/e2e/installer-smoke.ts",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e && pnpm test:installer"
   },
   "dependencies": {
+    "electron-squirrel-startup": "1.0.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -27,9 +31,10 @@
     "@electron-forge/shared-types": "7.11.2",
     "@electron/fuses": "1.8.0",
     "@eslint/js": "10.0.1",
-    "@testing-library/jest-dom": "6.9.1",
     "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
+    "@types/electron-squirrel-startup": "1.0.2",
     "@types/node": "24.13.3",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

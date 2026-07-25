@@ -5,11 +5,11 @@
   "key_files": [
     {
       "path": "package.json",
-      "sha256": "1bddca5049a95449161d1df6b7d9c968cdc3f6141d8a112214f843f574b69eb3"
+      "sha256": "0dcd0a7b628519fdeefb3f9b15b634485ab1bb6ba55dd76d38aa11f1f6e6fed7"
     },
     {
       "path": "pnpm-lock.yaml",
-      "sha256": "0fde5ec2db8243a605aa77768020064adc1199ca478b69c060e367c96303a02d"
+      "sha256": "c444b891c1c9d492643fbba3cf3b9d9e85a933abfa7d9f8debe12f41b7e7cf70"
     },
     {
       "path": "forge.config.ts",
@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "529758886b5bfde9d82db1727c99b659665b3da5b9a66a6c3270f8c5a1648f44",
+  "lifecycle_hash": "27e61b2806eb082b1c609e14e43267fed994d96ad094940ea71525a2b94c8b8a",
   "capabilities": [
     "electron-main",
     "sandboxed-preload",
@@ -64,6 +64,7 @@
     "react-renderer",
     "forge-package",
     "vitest",
-    "electron-smoke"
+    "electron-smoke",
+    "squirrel-installer-smoke"
   ]
 }
