@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "template_id": "electron-scaffold",
+  "template_version": "1.0.0",
+  "key_files": [
+    {
+      "path": "package.json",
+      "sha256": "584af6120690e807af8e37e54e5567f47f369fcf68b95965cd3b13a896f6c86c"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "0fde5ec2db8243a605aa77768020064adc1199ca478b69c060e367c96303a02d"
+    },
+    {
+      "path": "forge.config.ts",
+      "sha256": "b6f5f4221a09724522641a42f156f4e919a4607aae8c2f3c04ce14d404ab4a54"
+    }
+  ],
+  "protected_paths": [
+    ".sdlc-pipeline/lifecycle.json",
+    ".sdlc-pipeline/scaffold.json",
+    "package.json",
+    "pnpm-lock.yaml",
+    "forge.config.ts",
+    "vite.main.config.ts",
+    "vite.preload.config.ts",
+    "vite.renderer.config.ts"
+  ],
+  "extension_points": [
+    {
+      "id": "main-capability",
+      "path": "src/main"
+    },
+    {
+      "id": "preload-bridge",
+      "path": "src/preload"
+    },
+    {
+      "id": "shared-contract",
+      "path": "src/shared"
+    },
+    {
+      "id": "renderer-feature",
+      "path": "src/renderer"
+    },
+    {
+      "id": "automated-tests",
+      "path": "tests"
+    }
+  ],
+  "allowed_paths": [
+    "src/main",
+    "src/preload",
+    "src/shared",
+    "src/renderer",
+    "tests",
+    "docs"
+  ],
+  "lifecycle_hash": "6ce1f568f944534015fe661459b97a53fb1b2e6c5d2ca4bac44f90c57fd26bdf",
+  "capabilities": [
+    "electron-main",
+    "sandboxed-preload",
+    "typed-ipc",
+    "react-renderer",
+    "forge-package",
+    "vitest",
+    "electron-smoke"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "project_type": "electron-forge-react-vite",
+  "port": 5173,
+  "keep_running_after_init": false,
+  "tools": [
+    {
+      "name": "node",
+      "version": ">=22.12",
+      "required": true,
+      "probe": {
+        "argv": ["node", "--version"],
+        "timeout_seconds": 15
+      },
+      "system_install": {
+        "argv": ["winget", "install", "--exact", "--id", "OpenJS.NodeJS.LTS", "--accept-source-agreements", "--accept-package-agreements"],
+        "timeout_seconds": 900,
+        "windows_only": true
+      }
+    },
+    {
+      "name": "corepack",
+      "version": "bundled-with-node",
+      "required": true,
+      "probe": {
+        "argv": ["corepack", "--version"],
+        "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "--version"],
+        "timeout_seconds": 15
+      }
+    }
+  ],
+  "commands": {
+    "install": {
+      "argv": ["corepack", "pnpm", "install", "--frozen-lockfile"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "install", "--frozen-lockfile"],
+      "timeout_seconds": 900
+    },
+    "compile": {
+      "argv": ["corepack", "pnpm", "package"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "package"],
+      "timeout_seconds": 900
+    },
+    "start": {
+      "argv": ["corepack", "pnpm", "start"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "start"],
+      "timeout_seconds": 90,
+      "startup_grace_seconds": 5,
+      "background": true
+    },
+    "stop": {
+      "argv": ["${PYTHON}", "-c", "print('runner-managed stop')"],
+      "timeout_seconds": 15
+    },
+    "restart": {
+      "argv": ["${PYTHON}", "-c", "print('runner-managed restart')"],
+      "timeout_seconds": 15
+    }
+  },
+  "health": [
+    {
+      "type": "process",
+      "timeout_seconds": 10
+    },
+    {
+      "type": "tcp",
+      "host": "127.0.0.1",
+      "port": "${PORT}",
+      "timeout_seconds": 20
+    },
+    {
+      "type": "http",
+      "url": "http://127.0.0.1:${PORT}",
+      "contains": "root",
+      "timeout_seconds": 20
+    },
+    {
+      "type": "browser",
+      "url": "http://127.0.0.1:${PORT}",
+      "contains": "Electron Scaffold",
+      "timeout_seconds": 20
+    }
+  ],
+  "artifacts": [
+    ".vite/build/main.js",
+    ".vite/build/preload.js",
+    "out/Electron Scaffold-win32-x64/resources/app.asar",
+    "out/Electron Scaffold-win32-x64/electron-scaffold.exe"
+  ],
+  "tests": {
+    "unit": {
+      "argv": ["corepack", "pnpm", "test"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "test"],
+      "timeout_seconds": 600
+    },
+    "integration": {
+      "argv": ["corepack", "pnpm", "typecheck"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "typecheck"],
+      "timeout_seconds": 600
+    },
+    "e2e": {
+      "argv": ["corepack", "pnpm", "test:e2e"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "test:e2e"],
+      "timeout_seconds": 900
+    },
+    "lint": {
+      "argv": ["corepack", "pnpm", "lint"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "lint"],
+      "timeout_seconds": 600
+    },
+    "static_analysis": {
+      "argv": ["corepack", "pnpm", "audit", "--prod"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "corepack", "pnpm", "audit", "--prod"],
+      "timeout_seconds": 600
+    }
+  }
+}

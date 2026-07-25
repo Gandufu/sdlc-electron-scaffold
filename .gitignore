@@ -1,0 +1,8 @@
+node_modules/
+.vite/
+out/
+coverage/
+*.log
+.DS_Store
+.sdlc-pipeline/runs/
+docs/sdlc/
