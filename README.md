@@ -4,6 +4,15 @@
 TypeScript、Vitest 与 Playwright，默认开启进程隔离、sandbox、CSP、IPC sender
 校验、权限拒绝策略和 Electron fuses。
 
+## 模板身份与边界
+
+- 模板 ID：`sdlc-electron-scaffold`
+- 独立仓库：<https://github.com/Gandufu/sdlc-electron-scaffold.git>
+- 内容边界：不包含 Heli、设备控制、会议或其他领域业务，只保留安全
+  main/preload/typed IPC、React 页面和测试示例。
+- 打包工具：只使用 Electron Forge，不同时维护 electron-builder。
+- SDLC Pipeline 插件只登记本仓库的数据源元数据，不复制本仓库源码或模板专属资产。
+
 ## 环境
 
 - Node.js 22.12 或更高版本
@@ -34,6 +43,14 @@ corepack pnpm make
 - `package` 生成可运行的解包应用到 `out/`。
 - `test:e2e` 对解包应用执行真实窗口、preload bridge 与 IPC 冒烟。
 - `make` 生成 Windows 安装产物。
+
+## SDLC 生命周期契约
+
+- `.sdlc-pipeline/lifecycle.json` 声明工具探测、依赖安装、打包、启动、health、
+  artifact、测试和停止命令。
+- `.sdlc-pipeline/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
+- `docs/sdlc/` 是每次 init 生成的本地验收证据，默认不提交到模板仓库。
+- 插件通过 `/sdlc-init sdlc-electron-scaffold` 解析数据源并把模板 Git 历史导入当前空项目。
 
 ## 扩展
 
