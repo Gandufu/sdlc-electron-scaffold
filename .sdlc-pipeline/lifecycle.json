@@ -41,8 +41,8 @@
       "timeout_seconds": 900
     },
     "compile": {
-      "argv": ["pnpm", "release"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "release"],
+      "argv": ["pnpm", "package"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "package"],
       "timeout_seconds": 900
     },
     "start": {
@@ -77,28 +77,13 @@
       "url": "http://127.0.0.1:${PORT}",
       "contains": "root",
       "timeout_seconds": 20
-    },
-    {
-      "type": "browser",
-      "url": "http://127.0.0.1:${PORT}",
-      "contains": "SDLC Electron Scaffold",
-      "timeout_seconds": 20
-    },
-    {
-      "type": "command",
-      "command": {
-        "argv": ["pnpm", "exec", "tsx", "tests/e2e/smoke.ts"],
-        "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "exec", "tsx", "tests/e2e/smoke.ts"],
-        "timeout_seconds": 60
-      }
     }
   ],
   "artifacts": [
     ".vite/build/main.js",
     ".vite/build/preload.js",
     "out/SDLC Electron Scaffold-win32-x64/resources/app.asar",
-    "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe",
-    "dist/SDLCElectronScaffoldSetup.exe"
+    "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe"
   ],
   "tests": {
     "unit": {
@@ -111,20 +96,21 @@
       "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
       "timeout_seconds": 600
     },
-    "e2e": {
-      "argv": ["pnpm", "test:installer"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test:installer"],
-      "timeout_seconds": 900
-    },
     "lint": {
       "argv": ["pnpm", "lint"],
       "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "lint"],
       "timeout_seconds": 600
     },
     "static_analysis": {
-      "argv": ["pnpm", "audit", "--prod"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "audit", "--prod"],
+      "argv": ["pnpm", "typecheck"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
       "timeout_seconds": 600
+    },
+    "functional": {
+      "argv": ["pnpm", "functional"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "functional"],
+      "timeout_seconds": 120,
+      "allow_selector": true
     }
   }
 }

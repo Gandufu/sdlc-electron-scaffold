@@ -1,14 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { RuntimeInfo } from '../shared/contracts';
 
 export const App = () => {
   const [runtime, setRuntime] = useState<RuntimeInfo | null>(null);
-
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('smoke') === '1') {
-      void window.desktop.reportReady();
-    }
-  }, []);
 
   const inspectRuntime = async () => {
     setRuntime(await window.desktop.getRuntimeInfo());

@@ -11,7 +11,6 @@ describe('App', () => {
         node: '24.18.0',
         platform: 'win32',
       }),
-      reportReady: vi.fn().mockResolvedValue(undefined),
     };
   });
 

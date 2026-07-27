@@ -3,7 +3,14 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['node_modules/**', '.vite/**', 'out/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      '.vite/**',
+      'out/**',
+      'coverage/**',
+      '.opencode/**',
+      '.sdlc-pipeline/**',
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

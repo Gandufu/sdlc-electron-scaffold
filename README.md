@@ -35,10 +35,7 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm package
-pnpm test:e2e
-pnpm make
-pnpm release
-pnpm test:installer
+pnpm verify:code
 ```
 
 上述是开发者可直接执行的 shell 命令；在 SDLC `test-plan.json` 中，
@@ -48,19 +45,15 @@ pnpm test:installer
 |---|---|
 | `unit` | `pnpm test` |
 | `integration` | `pnpm typecheck` |
-| `e2e` | `pnpm test:installer` |
+| `functional` | `pnpm functional <tests/functional/...functional.ts>` |
 | `lint` | `pnpm lint` |
-| `static_analysis` | `pnpm audit --prod` |
+| `static_analysis` | `pnpm typecheck` |
 
 例如单元测试填写 `"command": "unit"`，不能填写 `"command": "pnpm test"`。
 
 - `package` 生成可运行的解包应用到 `out/`。
-- `test:e2e` 对解包应用执行真实窗口、preload bridge 与 IPC 冒烟。
-- `make` 生成 Windows Squirrel 内部产物。
-- `release` 从 Squirrel 产物生成最终交付目录；`dist/` 中只包含一个
-  `SDLCElectronScaffoldSetup.exe`。
-- `test:installer` 生成并安装该 `Setup.exe`，启动安装后的应用完成真实 Electron 冒烟，
-  最后卸载并清理测试安装。
+- `functional` 由 SDLC test 阶段在项目启动后执行指定 Playwright 功能文件。
+- 功能文件必须通过无头浏览器操作页面并断言业务结果，不负责重新编译或打包。
 
 本地开发构建默认不携带 Authenticode 签名，可以用于自动验收，但不应直接作为正式公网发布
 版本。生产发布必须在 `forge.config.ts` 中接入组织自己的 Windows 代码签名证书，并通过环境

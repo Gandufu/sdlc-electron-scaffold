@@ -35,16 +35,13 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 - 安装：`pnpm install --frozen-lockfile`
 - 开发启动：`pnpm start`
 - 解包应用：`pnpm package`
-- Squirrel 内部产物：`pnpm make`
-- 单 EXE 最终交付物：`pnpm release`
 - 单元测试：`pnpm test`
-- 解包应用真实 Electron 冒烟：`pnpm test:e2e`
-- 安装器及安装后应用验收：`pnpm test:installer`
+- 无头浏览器功能验收：`pnpm functional <tests/functional/...functional.ts>`
 
 SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 shell 命令：
-`unit`、`integration`、`e2e`、`lint`、`static_analysis` 分别映射到
-`pnpm test`、`pnpm typecheck`、`pnpm test:installer`、`pnpm lint`、
-`pnpm audit --prod`。因此 `test_plan.items[].command` 应填写 `"unit"`，
+`unit`、`integration`、`functional`、`lint`、`static_analysis` 分别映射到
+`pnpm test`、`pnpm typecheck`、指定 Playwright 功能文件、`pnpm lint`、
+`pnpm typecheck`。因此 `test_plan.items[].command` 应填写 `"functional"`，
 不能填写 `"pnpm test"`。
 
 `.sdlc-pipeline/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
@@ -52,7 +49,28 @@ SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 she
 契约。`docs/sdlc/init-report.*` 由真实 init 在本地生成且不纳入模板版本控制，不能手工改写为
 通过证据。
 
-Squirrel.Windows 在 `out/make` 生成 Setup.exe、`.nupkg` 和 `RELEASES`，`pnpm release`
-只把可独立安装的 Setup.exe 放入最终 `dist/`。安装器 E2E 会再把该文件复制到隔离目录，证明
-它不依赖旁边文件即可安装，并启动安装后的应用验证窗口、preload 与 IPC。模板开发构建默认
+安装器认证属于独立 release certification，不进入 SDLC 功能测试阶段。模板开发构建默认
 未签名，生产发布必须由使用者接入自己的 Authenticode 证书。
+
+## Functional 测试约定
+
+每个验收 T-id 绑定一个 `tests/functional/*.functional.ts` 文件。文件使用独立 Playwright
+library API，不依赖 Vitest，也不负责启动、编译或打包项目：
+
+```ts
+import { chromium } from 'playwright';
+
+const browser = await chromium.launch({ headless: true });
+try {
+  const page = await browser.newPage();
+  await page.goto(process.env.SDLC_FUNCTIONAL_URL ?? 'http://127.0.0.1:5173');
+  await page.getByRole('button', { name: '设备管理' }).click();
+  await page.getByRole('heading', { name: '系统信息' }).waitFor();
+} finally {
+  await browser.close();
+}
+```
+
+断言应面向可访问角色、菜单操作和业务字段。当前没有设备环境时，业务实现通过明确的
+device information provider seam 提供本地数据；接入设备后替换 provider，使相同测试流程
+直接依据真实接口返回值判断通过或失败。

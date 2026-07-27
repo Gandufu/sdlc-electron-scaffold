@@ -1,15 +1,15 @@
 {
   "schema_version": "1.0",
   "template_id": "sdlc-electron-scaffold",
-  "template_version": "1.0.0",
+  "template_version": "1.1.0",
   "key_files": [
     {
       "path": "package.json",
-      "sha256": "0dcd0a7b628519fdeefb3f9b15b634485ab1bb6ba55dd76d38aa11f1f6e6fed7"
+      "sha256": "f0be9f77ed63c2180413566ba34f0a9aab22fcc18de9da369857f4138d95234a"
     },
     {
       "path": "pnpm-lock.yaml",
-      "sha256": "c444b891c1c9d492643fbba3cf3b9d9e85a933abfa7d9f8debe12f41b7e7cf70"
+      "sha256": "1f236df53607329ee1003c1e4c9db03124d33f88c9d5f13672782e388e1e66b6"
     },
     {
       "path": "forge.config.ts",
@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "27e61b2806eb082b1c609e14e43267fed994d96ad094940ea71525a2b94c8b8a",
+  "lifecycle_hash": "1ca6a7c67ba418a0cf445c825d894adbff43fb3bc2cf514134ca47d2fc5f752a",
   "capabilities": [
     "electron-main",
     "sandboxed-preload",
@@ -64,7 +64,6 @@
     "react-renderer",
     "forge-package",
     "vitest",
-    "electron-smoke",
-    "squirrel-installer-smoke"
+    "headless-functional"
   ]
 }

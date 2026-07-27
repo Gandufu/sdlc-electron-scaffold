@@ -19,8 +19,6 @@ import {
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string | undefined;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
-const smokeTest = process.argv.includes('--smoke-test');
-
 if (squirrelStartup) {
   app.quit();
 }
@@ -70,13 +68,9 @@ const createWindow = (): BrowserWindow => {
   });
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    const url = new URL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    if (smokeTest) {
-      url.searchParams.set('smoke', '1');
-    }
-    void window.loadURL(url.toString());
+    void window.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
-    void window.loadURL(`app://bundle/index.html${smokeTest ? '?smoke=1' : ''}`);
+    void window.loadURL('app://bundle/index.html');
   }
   return window;
 };
@@ -95,12 +89,7 @@ app.whenReady().then(() => {
   session.defaultSession.setPermissionRequestHandler((_webContents, _permission, callback) => {
     callback(false);
   });
-  registerIpc(MAIN_WINDOW_VITE_DEV_SERVER_URL, () => {
-    if (smokeTest) {
-      console.log('[smoke] ready');
-      app.exit(0);
-    }
-  });
+  registerIpc(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   createWindow();
 
   app.on('activate', () => {

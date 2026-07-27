@@ -1,6 +1,5 @@
 export const IPC = {
   runtimeInfo: 'app:runtime-info',
-  smokeReady: 'app:smoke-ready',
 } as const;
 
 export interface RuntimeInfo {
@@ -12,5 +11,4 @@ export interface RuntimeInfo {
 
 export interface DesktopBridge {
   getRuntimeInfo(): Promise<RuntimeInfo>;
-  reportReady(): Promise<void>;
 }
