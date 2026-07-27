@@ -41,6 +41,12 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 - 解包应用真实 Electron 冒烟：`pnpm test:e2e`
 - 安装器及安装后应用验收：`pnpm test:installer`
 
+SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 shell 命令：
+`unit`、`integration`、`e2e`、`lint`、`static_analysis` 分别映射到
+`pnpm test`、`pnpm typecheck`、`pnpm test:installer`、`pnpm lint`、
+`pnpm audit --prod`。因此 `test_plan.items[].command` 应填写 `"unit"`，
+不能填写 `"pnpm test"`。
+
 `.sdlc-pipeline/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
 `.sdlc-pipeline/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
 契约。`docs/sdlc/init-report.*` 由真实 init 在本地生成且不纳入模板版本控制，不能手工改写为

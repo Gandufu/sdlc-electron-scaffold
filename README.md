@@ -41,6 +41,19 @@ pnpm release
 pnpm test:installer
 ```
 
+上述是开发者可直接执行的 shell 命令；在 SDLC `test-plan.json` 中，
+`test_plan.items[].command` 必须引用 `.sdlc-pipeline/lifecycle.json` 的测试逻辑键：
+
+| 测试逻辑键 | 实际命令 |
+|---|---|
+| `unit` | `pnpm test` |
+| `integration` | `pnpm typecheck` |
+| `e2e` | `pnpm test:installer` |
+| `lint` | `pnpm lint` |
+| `static_analysis` | `pnpm audit --prod` |
+
+例如单元测试填写 `"command": "unit"`，不能填写 `"command": "pnpm test"`。
+
 - `package` 生成可运行的解包应用到 `out/`。
 - `test:e2e` 对解包应用执行真实窗口、preload bridge 与 IPC 冒烟。
 - `make` 生成 Windows Squirrel 内部产物。
