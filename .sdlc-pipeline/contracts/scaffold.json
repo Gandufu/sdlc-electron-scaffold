@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "template_id": "sdlc-electron-scaffold",
-  "template_version": "1.1.0",
+  "template_version": "1.1.1",
   "key_files": [
     {
       "path": "package.json",
-      "sha256": "f0be9f77ed63c2180413566ba34f0a9aab22fcc18de9da369857f4138d95234a"
+      "sha256": "48296774f4f510dd50efe2c4ffff63eb310fa55dab4248fa75e0557c36a5b274"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "554df795e381c6be22fa549d3685dcc02e6089d5086278a44372f2d7f7263795",
+  "lifecycle_hash": "36e257922859b40efa486f7a6a38e9833d04029d7e54529d33d3fbf42d0604d7",
   "capabilities": [
     "electron-main",
     "sandboxed-preload",

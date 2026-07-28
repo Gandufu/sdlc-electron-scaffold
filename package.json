@@ -1,7 +1,7 @@
 {
   "name": "sdlc-electron-scaffold",
   "productName": "SDLC Electron Scaffold",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A secure Electron Forge scaffold with React, Vite and TypeScript.",
   "author": "SDLC Electron Scaffold Contributors",
   "private": true,
@@ -16,7 +16,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "verify:discovery": "tsx tests/verify-discovery-boundary.ts",
-    "verify:code": "pnpm lint && pnpm typecheck && pnpm test && pnpm package",
+    "verify:contracts": "tsx tests/verify-sdlc-contracts.ts",
+    "verify:code": "pnpm verify:contracts && pnpm lint && pnpm typecheck && pnpm test && pnpm package",
     "functional": "tsx"
   },
   "dependencies": {

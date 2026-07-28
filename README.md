@@ -35,6 +35,7 @@ pnpm lint
 pnpm typecheck
 pnpm test
 pnpm package
+pnpm verify:contracts
 pnpm verify:code
 ```
 
@@ -64,8 +65,10 @@ pnpm verify:code
 - `.sdlc-pipeline/contracts/lifecycle.json` 声明工具探测、依赖安装、打包、启动、health、
   artifact、测试和停止命令。
 - `.sdlc-pipeline/contracts/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
-- `docs/sdlc/` 是每次 init 生成的本地验收证据，默认不提交到模板仓库。
-- 插件通过 `/sdlc-init sdlc-electron-scaffold` 解析数据源并把模板 Git 历史导入当前空项目。
+- `pnpm verify:contracts` 使用跨平台换行规范化 hash 校验上述合同，发布模板前必须通过。
+- init 证据位于项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制。
+- 插件通过无参数 `/sdlc-init` 启动初始化；用户在交互中明确选择 `sdlc-electron-scaffold` 后，
+  插件才导入模板 Git 历史到当前空项目。
 
 ## 扩展
 

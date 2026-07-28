@@ -46,8 +46,8 @@ SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 she
 
 `.sdlc-pipeline/contracts/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
 `.sdlc-pipeline/contracts/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
-契约。`docs/sdlc/init-report.*` 由真实 init 在本地生成且不纳入模板版本控制，不能手工改写为
-通过证据。
+契约。`pnpm verify:contracts` 必须以跨平台规范化换行 hash 校验这些合同；init 的通过证据由插件写入
+项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制，也不能手工改写为通过证据。
 
 安装器认证属于独立 release certification，不进入 SDLC 功能测试阶段。模板开发构建默认
 未签名，生产发布必须由使用者接入自己的 Authenticode 证书。
