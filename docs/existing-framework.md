@@ -44,8 +44,8 @@ SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 she
 `pnpm typecheck`。因此 `test_plan.items[].command` 应填写 `"functional"`，
 不能填写 `"pnpm test"`。
 
-`.sdlc-pipeline/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
-`.sdlc-pipeline/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
+`.sdlc-pipeline/contracts/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
+`.sdlc-pipeline/contracts/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
 契约。`docs/sdlc/init-report.*` 由真实 init 在本地生成且不纳入模板版本控制，不能手工改写为
 通过证据。
 

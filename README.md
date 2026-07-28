@@ -39,7 +39,7 @@ pnpm verify:code
 ```
 
 上述是开发者可直接执行的 shell 命令；在 SDLC `test-plan.json` 中，
-`test_plan.items[].command` 必须引用 `.sdlc-pipeline/lifecycle.json` 的测试逻辑键：
+`test_plan.items[].command` 必须引用 `.sdlc-pipeline/contracts/lifecycle.json` 的测试逻辑键：
 
 | 测试逻辑键 | 实际命令 |
 |---|---|
@@ -61,9 +61,9 @@ pnpm verify:code
 
 ## SDLC 生命周期契约
 
-- `.sdlc-pipeline/lifecycle.json` 声明工具探测、依赖安装、打包、启动、health、
+- `.sdlc-pipeline/contracts/lifecycle.json` 声明工具探测、依赖安装、打包、启动、health、
   artifact、测试和停止命令。
-- `.sdlc-pipeline/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
+- `.sdlc-pipeline/contracts/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
 - `docs/sdlc/` 是每次 init 生成的本地验收证据，默认不提交到模板仓库。
 - 插件通过 `/sdlc-init sdlc-electron-scaffold` 解析数据源并把模板 Git 历史导入当前空项目。
 

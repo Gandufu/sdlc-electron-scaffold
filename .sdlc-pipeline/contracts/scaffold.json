@@ -17,8 +17,8 @@
     }
   ],
   "protected_paths": [
-    ".sdlc-pipeline/lifecycle.json",
-    ".sdlc-pipeline/scaffold.json",
+    ".sdlc-pipeline/contracts/lifecycle.json",
+    ".sdlc-pipeline/contracts/scaffold.json",
     "package.json",
     "pnpm-lock.yaml",
     "forge.config.ts",
@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "1ca6a7c67ba418a0cf445c825d894adbff43fb3bc2cf514134ca47d2fc5f752a",
+  "lifecycle_hash": "554df795e381c6be22fa549d3685dcc02e6089d5086278a44372f2d7f7263795",
   "capabilities": [
     "electron-main",
     "sandboxed-preload",
