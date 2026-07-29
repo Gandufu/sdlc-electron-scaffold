@@ -5,7 +5,7 @@
   "key_files": [
     {
       "path": "package.json",
-      "sha256": "95c7e24042d55cdcf9f9277194f1b21fa9133e2ff9bc14b7097b9f1acfcb81e6"
+      "sha256": "b65ed01c3a698e1302deec9ca97187e663c5a720be144b52b23580f4cae878ae"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "adaa1b1a102eb7e487d9287f51ec68f79fe00dee170573d25eb3d97aaa9ab902",
+  "lifecycle_hash": "053ae0b293841e61043b7f08db4236049c9224d9da425eec6468620de3d1c2d1",
   "capabilities": [
     "desktop",
     "electron-main",

@@ -41,6 +41,11 @@
       "timeout_seconds": 900
     },
     "compile": {
+      "argv": ["pnpm", "compile"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "compile"],
+      "timeout_seconds": 600
+    },
+    "package": {
       "argv": ["pnpm", "package"],
       "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "package"],
       "timeout_seconds": 900
@@ -51,14 +56,6 @@
       "timeout_seconds": 90,
       "startup_grace_seconds": 5,
       "background": true
-    },
-    "stop": {
-      "argv": ["${PYTHON}", "-c", "print('runner-managed stop')"],
-      "timeout_seconds": 15
-    },
-    "restart": {
-      "argv": ["${PYTHON}", "-c", "print('runner-managed restart')"],
-      "timeout_seconds": 15
     },
     "lint": {
       "argv": ["pnpm", "lint"],

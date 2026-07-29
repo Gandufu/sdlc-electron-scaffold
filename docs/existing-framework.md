@@ -34,17 +34,20 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 
 - 安装：`pnpm install --frozen-lockfile`
 - 开发启动：`pnpm start`
+- 编译检查：`pnpm compile`
 - 解包应用：`pnpm package`
 - 单元测试：`pnpm test`
 - 无头浏览器功能验收：`pnpm functional <tests/functional/...functional.ts>`
 
-模板维护者可运行 `pnpm verify:template` 执行 contract、lint、typecheck、Vitest 和 package
-自检。SDLC code gate 从 lifecycle `commands` 执行 package、lint 和 typecheck；这些工程控制
+模板维护者可运行 `pnpm verify:template` 执行 contract、lint、compile、Vitest 和 package
+自检。SDLC code gate 从 lifecycle `commands` 分别执行 compile、package、lint 和 typecheck，
+随后启动并保持预览运行；这些工程控制
 不是 Verification 测试。Verification Markdown 使用 `level: "functional"`、
 `test_key: "functional"` 和 `selector: "tests/functional/T-xxxx.functional.ts"`，不能把
 `pnpm functional` 等 shell 命令写进 `test_key`。
 
-`.sdlc-pipeline/contracts/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
+`.sdlc-pipeline/contracts/lifecycle.json` 是上述命令及 health/artifact 的机器契约。start
+产生的后台进程由插件记录 PID 与创建身份并统一停止，模板不重复实现 stop/restart 脚本。
 `.sdlc-pipeline/contracts/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
 契约。`pnpm verify:contracts` 必须以跨平台规范化换行 hash 校验这些合同；init 的通过证据由插件写入
 项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制，也不能手工改写为通过证据。
@@ -54,8 +57,9 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 
 ## Functional 测试约定
 
-每个验收 T-id 绑定一个 `tests/functional/*.functional.ts` 文件。文件使用项目安装的
-Playwright library API 启动 Electron，不依赖 Vitest 或 Playwright MCP，也不负责编译或打包项目：
+每个验收 T-id 绑定一个 `tests/functional/*.functional.ts` 文件。test gate 先停止 coder 预览并
+确认 5173 端口释放；文件再使用项目安装的 Playwright library API 启动 Electron，不依赖 Vitest
+或 Playwright MCP，也不负责编译或打包项目：
 
 ```ts
 import { _electron } from 'playwright';

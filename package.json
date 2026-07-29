@@ -8,6 +8,7 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "compile": "tsc --noEmit",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "release": "pnpm make && tsx scripts/prepare-release.ts",
@@ -16,7 +17,7 @@
     "test": "vitest run",
     "verify:discovery": "tsx tests/verify-discovery-boundary.ts",
     "verify:contracts": "tsx tests/verify-sdlc-contracts.ts",
-    "verify:template": "pnpm verify:contracts && pnpm lint && pnpm typecheck && pnpm test && pnpm package",
+    "verify:template": "pnpm verify:contracts && pnpm lint && pnpm compile && pnpm test && pnpm package",
     "functional": "tsx"
   },
   "dependencies": {

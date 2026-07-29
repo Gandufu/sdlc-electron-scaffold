@@ -28,20 +28,27 @@ pnpm start
 
 `start` 会启动 Vite renderer、编译 main/preload 并拉起真实 Electron 窗口。
 
+独立编译检查：
+
+```powershell
+pnpm compile
+```
+
 ## 验证与发布
 
 ```powershell
 pnpm lint
 pnpm typecheck
+pnpm compile
 pnpm test
 pnpm package
 pnpm verify:contracts
 pnpm verify:template
 ```
 
-上述命令供模板维护者自检。SDLC code gate 根据 lifecycle `commands` 执行 package、lint 和
-typecheck；coder 不读取或编写测试脚本。Verification Markdown 的 frontmatter 使用以下字段引用
-functional 测试：
+上述命令供模板维护者自检。SDLC code gate 根据 lifecycle `commands` 分别执行 compile、package、
+lint 和 typecheck，再启动项目、等待 readiness，并保持预览运行。coder 不读取或编写测试脚本。
+Verification Markdown 的 frontmatter 使用以下字段引用 functional 测试：
 
 ```yaml
 level: "functional"
@@ -51,9 +58,9 @@ selector: "tests/functional/T-0001.functional.ts"
 
 - `package` 生成可运行的解包应用到 `out/`。
 - tester 子 agent 只编写 selector 指定的 Playwright functional 脚本。
-- Core 在 test 阶段启动 Electron、等待 readiness、执行功能脚本并停止应用。
+- Core 在 test 阶段先停止 coder 预览并确认 5173 端口释放。
 - 功能脚本使用 Playwright `_electron.launch()` 操作桌面窗口并断言业务结果，不重新编译或打包，
-  也不依赖 Playwright MCP。
+  在 `finally` 中关闭 Electron，也不依赖 Playwright MCP；Core 最后复查端口和进程清理。
 
 本地开发构建默认不携带 Authenticode 签名，可以用于自动验收，但不应直接作为正式公网发布
 版本。生产发布必须在 `forge.config.ts` 中接入组织自己的 Windows 代码签名证书，并通过环境
@@ -61,8 +68,9 @@ selector: "tests/functional/T-0001.functional.ts"
 
 ## SDLC 生命周期契约
 
-- `.sdlc-pipeline/contracts/lifecycle.json` 声明工具探测、依赖安装、打包、启动、health、
-  artifact、测试和停止命令。
+- `.sdlc-pipeline/contracts/lifecycle.json` 分别声明工具探测、依赖安装、编译、打包、启动、health、
+  artifact 和测试命令。start 产生的后台进程由插件记录 PID 与创建身份并统一停止，模板不重复实现
+  stop/restart 脚本。
 - `.sdlc-pipeline/contracts/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
 - `pnpm verify:contracts` 使用跨平台换行规范化 hash 校验上述合同，发布模板前必须通过。
 - init 证据位于项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制；批准后的 baseline、
