@@ -36,25 +36,24 @@ pnpm typecheck
 pnpm test
 pnpm package
 pnpm verify:contracts
-pnpm verify:code
+pnpm verify:template
 ```
 
-上述是开发者可直接执行的 shell 命令；在 SDLC `test-plan.json` 中，
-`test_plan.items[].command` 必须引用 `.sdlc-pipeline/contracts/lifecycle.json` 的测试逻辑键：
+上述命令供模板维护者自检。SDLC code gate 根据 lifecycle `commands` 执行 package、lint 和
+typecheck；coder 不读取或编写测试脚本。Verification Markdown 的 frontmatter 使用以下字段引用
+functional 测试：
 
-| 测试逻辑键 | 实际命令 |
-|---|---|
-| `unit` | `pnpm test` |
-| `integration` | `pnpm typecheck` |
-| `functional` | `pnpm functional <tests/functional/...functional.ts>` |
-| `lint` | `pnpm lint` |
-| `static_analysis` | `pnpm typecheck` |
-
-例如单元测试填写 `"command": "unit"`，不能填写 `"command": "pnpm test"`。
+```yaml
+level: "functional"
+test_key: "functional"
+selector: "tests/functional/T-0001.functional.ts"
+```
 
 - `package` 生成可运行的解包应用到 `out/`。
-- `functional` 由 SDLC test 阶段在项目启动后执行指定 Playwright 功能文件。
-- 功能文件必须通过无头浏览器操作页面并断言业务结果，不负责重新编译或打包。
+- tester 子 agent 只编写 selector 指定的 Playwright functional 脚本。
+- Core 在 test 阶段启动 Electron、等待 readiness、执行功能脚本并停止应用。
+- 功能脚本使用 Playwright `_electron.launch()` 操作桌面窗口并断言业务结果，不重新编译或打包，
+  也不依赖 Playwright MCP。
 
 本地开发构建默认不携带 Authenticode 签名，可以用于自动验收，但不应直接作为正式公网发布
 版本。生产发布必须在 `forge.config.ts` 中接入组织自己的 Windows 代码签名证书，并通过环境
@@ -66,7 +65,8 @@ pnpm verify:code
   artifact、测试和停止命令。
 - `.sdlc-pipeline/contracts/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
 - `pnpm verify:contracts` 使用跨平台换行规范化 hash 校验上述合同，发布模板前必须通过。
-- init 证据位于项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制。
+- init 证据位于项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制；批准后的 baseline、
+  test results 与 version 文档位于 `docs/sdlc/`，应提交到 Git。
 - 插件通过无参数 `/sdlc-init` 启动初始化；用户在交互中明确选择 `sdlc-electron-scaffold` 后，
   插件才导入模板 Git 历史到当前空项目。
 

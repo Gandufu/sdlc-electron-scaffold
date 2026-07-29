@@ -5,5 +5,8 @@ dist/
 coverage/
 *.log
 .DS_Store
-.sdlc-pipeline/runs/
-docs/sdlc/
+.sdlc-pipeline/runtime/
+.sdlc-pipeline/state/
+.sdlc-pipeline/work/
+.sdlc-pipeline/evidence/
+.sdlc-pipeline/installation.json

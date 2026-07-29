@@ -4,7 +4,8 @@ import path from 'node:path';
 
 const sentinels = [
   path.resolve('.opencode', '__sdlc_discovery_poison__.test.ts'),
-  path.resolve('.sdlc-pipeline', 'runs', '__sdlc_discovery_poison__.test.ts'),
+  path.resolve('.sdlc-pipeline', 'runtime', '__sdlc_discovery_poison__.test.ts'),
+  path.resolve('.sdlc-pipeline', 'work', '__sdlc_discovery_poison__.test.ts'),
 ];
 
 try {

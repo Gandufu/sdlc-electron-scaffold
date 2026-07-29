@@ -59,6 +59,16 @@
     "restart": {
       "argv": ["${PYTHON}", "-c", "print('runner-managed restart')"],
       "timeout_seconds": 15
+    },
+    "lint": {
+      "argv": ["pnpm", "lint"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "lint"],
+      "timeout_seconds": 600
+    },
+    "typecheck": {
+      "argv": ["pnpm", "typecheck"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
+      "timeout_seconds": 600
     }
   },
   "health": [
@@ -86,26 +96,6 @@
     "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe"
   ],
   "tests": {
-    "unit": {
-      "argv": ["pnpm", "test"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test"],
-      "timeout_seconds": 600
-    },
-    "integration": {
-      "argv": ["pnpm", "typecheck"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
-      "timeout_seconds": 600
-    },
-    "lint": {
-      "argv": ["pnpm", "lint"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "lint"],
-      "timeout_seconds": 600
-    },
-    "static_analysis": {
-      "argv": ["pnpm", "typecheck"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
-      "timeout_seconds": 600
-    },
     "functional": {
       "argv": ["pnpm", "functional"],
       "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "functional"],

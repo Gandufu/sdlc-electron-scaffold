@@ -38,11 +38,11 @@ renderer -> preload/contextBridge -> main IPC handler -> main capability
 - 单元测试：`pnpm test`
 - 无头浏览器功能验收：`pnpm functional <tests/functional/...functional.ts>`
 
-SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 shell 命令：
-`unit`、`integration`、`functional`、`lint`、`static_analysis` 分别映射到
-`pnpm test`、`pnpm typecheck`、指定 Playwright 功能文件、`pnpm lint`、
-`pnpm typecheck`。因此 `test_plan.items[].command` 应填写 `"functional"`，
-不能填写 `"pnpm test"`。
+模板维护者可运行 `pnpm verify:template` 执行 contract、lint、typecheck、Vitest 和 package
+自检。SDLC code gate 从 lifecycle `commands` 执行 package、lint 和 typecheck；这些工程控制
+不是 Verification 测试。Verification Markdown 使用 `level: "functional"`、
+`test_key: "functional"` 和 `selector: "tests/functional/T-xxxx.functional.ts"`，不能把
+`pnpm functional` 等 shell 命令写进 `test_key`。
 
 `.sdlc-pipeline/contracts/lifecycle.json` 是上述命令及 health/artifact/stop 的机器契约，
 `.sdlc-pipeline/contracts/scaffold.json` 是关键 hash、protected path、allowed path 与 extension point
@@ -54,20 +54,21 @@ SDLC 测试计划引用的是 lifecycle 测试逻辑键，而不是上面的 she
 
 ## Functional 测试约定
 
-每个验收 T-id 绑定一个 `tests/functional/*.functional.ts` 文件。文件使用独立 Playwright
-library API，不依赖 Vitest，也不负责启动、编译或打包项目：
+每个验收 T-id 绑定一个 `tests/functional/*.functional.ts` 文件。文件使用项目安装的
+Playwright library API 启动 Electron，不依赖 Vitest 或 Playwright MCP，也不负责编译或打包项目：
 
 ```ts
-import { chromium } from 'playwright';
+import { _electron } from 'playwright';
 
-const browser = await chromium.launch({ headless: true });
+const electronApp = await _electron.launch({
+  args: ['.vite/build/main.js'],
+});
 try {
-  const page = await browser.newPage();
-  await page.goto(process.env.SDLC_FUNCTIONAL_URL ?? 'http://127.0.0.1:5173');
-  await page.getByRole('button', { name: '设备管理' }).click();
-  await page.getByRole('heading', { name: '系统信息' }).waitFor();
+  const window = await electronApp.firstWindow();
+  await window.getByRole('button', { name: '设备管理' }).click();
+  await window.getByRole('heading', { name: '系统信息' }).waitFor();
 } finally {
-  await browser.close();
+  await electronApp.close();
 }
 ```
 
