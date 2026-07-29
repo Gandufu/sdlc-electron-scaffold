@@ -48,19 +48,23 @@ pnpm verify:template
 
 上述命令供模板维护者自检。SDLC code gate 根据 lifecycle `commands` 分别执行 compile、package、
 lint 和 typecheck，再启动项目、等待 readiness，并保持预览运行。coder 不读取或编写测试脚本。
-Verification Markdown 的 frontmatter 使用以下字段引用 functional 测试：
+测试阶段在 tester 产出脚本后重新执行 lint、typecheck 与全量 unit test；只有选中 functional suite
+时才重新启动 Electron runtime 并完成 readiness。Verification Markdown 的 frontmatter 通过合同声明的
+测试套件引用测试：
 
 ```yaml
-level: "functional"
-test_key: "functional"
-selector: "tests/functional/T-0001.functional.ts"
+level: "unit"
+test_key: "unit"
+selector: "tests/App.test.tsx"
 ```
 
 - `package` 生成可运行的解包应用到 `out/`。
-- tester 子 agent 只编写 selector 指定的 Playwright functional 脚本。
-- Core 在 test 阶段先停止 coder 预览并确认 5173 端口释放。
-- 功能脚本使用 Playwright `_electron.launch()` 操作桌面窗口并断言业务结果，不重新编译或打包，
-  在 `finally` 中关闭 Electron，也不依赖 Playwright MCP；Core 最后复查端口和进程清理。
+- tester 子 agent 只编写已发布 selector 指定的 unit 或 Playwright functional 脚本。
+- `unit` selector 仅匹配 `tests/**/*.test.ts(x)`，不需要运行时；`functional` selector 仅匹配
+  `tests/functional/*.functional.ts`，需要运行时。
+- Core 在 test 阶段先停止 coder 预览并确认 5173 端口释放。functional 脚本使用 Playwright
+  `_electron.launch()` 操作桌面窗口并断言业务结果，在 `finally` 中关闭 Electron，也不依赖
+  Playwright MCP；Core 最后复查端口和进程清理。
 
 本地开发构建默认不携带 Authenticode 签名，可以用于自动验收，但不应直接作为正式公网发布
 版本。生产发布必须在 `forge.config.ts` 中接入组织自己的 Windows 代码签名证书，并通过环境
@@ -69,8 +73,8 @@ selector: "tests/functional/T-0001.functional.ts"
 ## SDLC 生命周期契约
 
 - `.sdlc-pipeline/contracts/lifecycle.json` 分别声明工具探测、依赖安装、编译、打包、启动、health、
-  artifact 和测试命令。start 产生的后台进程由插件记录 PID 与创建身份并统一停止，模板不重复实现
-  stop/restart 脚本。
+  artifact、test_preflight 和测试 suite。`start` 直接调用 Forge CLI，避免包管理器包装进程脱离
+  Core 的 PID 管理；后台进程由插件记录创建身份并统一停止，模板不重复实现 stop/restart 脚本。
 - `.sdlc-pipeline/contracts/scaffold.json` 固定模板 ID、关键文件 hash、受保护路径和扩展点。
 - `pnpm verify:contracts` 使用跨平台换行规范化 hash 校验上述合同，发布模板前必须通过。
 - init 证据位于项目本地 `.sdlc-pipeline/evidence/records/`，不纳入模板版本控制；批准后的 baseline、

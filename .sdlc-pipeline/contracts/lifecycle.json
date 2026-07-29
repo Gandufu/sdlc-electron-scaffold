@@ -1,5 +1,5 @@
 {
-  "schema_version" : "1.0",
+  "schema_version" : "1.1",
   "project_type": "electron-forge-react-vite",
   "port": 5173,
   "keep_running_after_init": false,
@@ -51,8 +51,8 @@
       "timeout_seconds": 900
     },
     "start": {
-      "argv": ["pnpm", "start"],
-      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "start"],
+      "argv": ["node", "node_modules/@electron-forge/cli/dist/electron-forge.js", "start"],
+      "windows_argv": ["node", "node_modules/@electron-forge/cli/dist/electron-forge.js", "start"],
       "timeout_seconds": 90,
       "startup_grace_seconds": 5,
       "background": true
@@ -92,12 +92,44 @@
     "out/SDLC Electron Scaffold-win32-x64/resources/app.asar",
     "out/SDLC Electron Scaffold-win32-x64/sdlc-electron-scaffold.exe"
   ],
+  "test_preflight": [
+    {
+      "argv": ["pnpm", "lint"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "lint"],
+      "timeout_seconds": 600
+    },
+    {
+      "argv": ["pnpm", "typecheck"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "typecheck"],
+      "timeout_seconds": 600
+    },
+    {
+      "argv": ["pnpm", "test"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test"],
+      "timeout_seconds": 600
+    }
+  ],
   "tests": {
+    "unit": {
+      "argv": ["pnpm", "test"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "test"],
+      "timeout_seconds": 120,
+      "allow_selector": true,
+      "requires_runtime": false,
+      "selector_patterns": [
+        "tests/*.test.ts",
+        "tests/*.test.tsx",
+        "tests/**/*.test.ts",
+        "tests/**/*.test.tsx"
+      ]
+    },
     "functional": {
       "argv": ["pnpm", "functional"],
       "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "functional"],
       "timeout_seconds": 120,
-      "allow_selector": true
+      "allow_selector": true,
+      "requires_runtime": true,
+      "selector_patterns": ["tests/functional/*.functional.ts"]
     }
   }
 }
