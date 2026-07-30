@@ -1,7 +1,7 @@
 {
   "name": "sdlc-electron-scaffold",
   "productName": "SDLC Electron Scaffold",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A secure Electron Forge scaffold with React, Vite and TypeScript.",
   "author": "SDLC Electron Scaffold Contributors",
   "private": true,

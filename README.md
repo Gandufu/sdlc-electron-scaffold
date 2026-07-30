@@ -89,4 +89,6 @@ selector: "tests/App.test.tsx"
   `ipcRenderer`。
 - 跨进程 channel 与 DTO 放在 `src/shared/contracts.ts`。
 - renderer 页面和状态放在 `src/renderer/`，不得直接访问 Node.js。
+- 原型 HTML/CSS 直接引用的 PNG、字体等原始静态资源放在项目根目录 `assets/`。Vite 在开发时
+  从站点根路径提供该目录，并在构建时保持文件名原样复制；页面使用 `/文件名` 引用。
 - 新增 IPC 时必须同时补充 sender 校验、参数校验和至少一个失败测试。

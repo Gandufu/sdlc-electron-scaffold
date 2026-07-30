@@ -4,8 +4,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 type ScaffoldContract = {
+  template_version: string;
   lifecycle_hash: string;
   key_files: Array<{ path: string; sha256: string }>;
+  extension_points: Array<{ id: string; path: string }>;
+  allowed_paths: string[];
 };
 
 type LifecycleContract = {
@@ -67,6 +70,26 @@ async function main(): Promise<void> {
       'SDLC start command must run through pnpm so Electron Forge receives a valid package-manager user agent',
     );
   }
+
+  if (
+    scaffold.template_version !== '1.4.0' ||
+    !scaffold.allowed_paths.includes('assets') ||
+    !scaffold.extension_points.some(
+      (entry) => entry.id === 'renderer-assets' && entry.path === 'assets',
+    )
+  ) {
+    throw new Error(
+      'Scaffold must expose the project-root assets directory as renderer-assets',
+    );
+  }
+  const rendererConfig = await readFile(
+    path.join(root, 'vite.renderer.config.ts'),
+    'utf8',
+  );
+  if (!rendererConfig.includes("publicDir: 'assets'")) {
+    throw new Error('Vite renderer must serve project-root assets as public files');
+  }
+  await readFile(path.join(root, 'assets', '.gitkeep'), 'utf8');
 }
 
 void main().catch((error: unknown) => {

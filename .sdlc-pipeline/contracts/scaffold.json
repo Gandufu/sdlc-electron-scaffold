@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "template_id": "sdlc-electron-scaffold",
-  "template_version": "1.3.0",
+  "template_version": "1.4.0",
   "key_files": [
     {
       "path": "package.json",
-      "sha256": "247e54a49125b1f0d32112ff2373731e361dc67e6cc56d762ae5627a18f2bfd6"
+      "sha256": "e08e0eb5912adf41bf7649931c0db6e70124d3196c1e8051110ad3ea2f8ff295"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -14,6 +14,10 @@
     {
       "path": "forge.config.ts",
       "sha256": "e765d880414db2d38a063acf41c3021e50d586e5218ad2199a80716af446d395"
+    },
+    {
+      "path": "vite.renderer.config.ts",
+      "sha256": "761716f8a9d4f2f01df8f29642805b36021e72c1a1a60b6b05931dc82153ea89"
     }
   ],
   "protected_paths": [
@@ -44,6 +48,10 @@
       "path": "src/renderer"
     },
     {
+      "id": "renderer-assets",
+      "path": "assets"
+    },
+    {
       "id": "automated-tests",
       "path": "tests"
     }
@@ -53,6 +61,7 @@
     "src/preload",
     "src/shared",
     "src/renderer",
+    "assets",
     "tests",
     "docs"
   ],
