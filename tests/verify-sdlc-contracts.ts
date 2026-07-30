@@ -8,6 +8,15 @@ type ScaffoldContract = {
   key_files: Array<{ path: string; sha256: string }>;
 };
 
+type LifecycleContract = {
+  commands: {
+    start: {
+      argv: string[];
+      windows_argv?: string[];
+    };
+  };
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function canonicalHash(content: string): string {
@@ -40,6 +49,23 @@ async function main(): Promise<void> {
         `SDLC contract hash mismatch for ${entry.path}: expected ${entry.sha256}, got ${actual}`,
       );
     }
+  }
+
+  const lifecycle = JSON.parse(
+    await readFile(
+      path.join(root, '.sdlc-pipeline/contracts/lifecycle.json'),
+      'utf8',
+    ),
+  ) as LifecycleContract;
+  const start = lifecycle.commands.start;
+  if (
+    start.argv.join('\0') !== ['pnpm', 'start'].join('\0') ||
+    start.windows_argv?.join('\0') !==
+      ['cmd.exe', '/d', '/c', 'pnpm', 'start'].join('\0')
+  ) {
+    throw new Error(
+      'SDLC start command must run through pnpm so Electron Forge receives a valid package-manager user agent',
+    );
   }
 }
 

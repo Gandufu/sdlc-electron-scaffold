@@ -51,8 +51,8 @@
       "timeout_seconds": 900
     },
     "start": {
-      "argv": ["node", "node_modules/@electron-forge/cli/dist/electron-forge.js", "start"],
-      "windows_argv": ["node", "node_modules/@electron-forge/cli/dist/electron-forge.js", "start"],
+      "argv": ["pnpm", "start"],
+      "windows_argv": ["cmd.exe", "/d", "/c", "pnpm", "start"],
       "timeout_seconds": 90,
       "startup_grace_seconds": 5,
       "background": true

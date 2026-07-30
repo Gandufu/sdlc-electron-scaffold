@@ -56,7 +56,7 @@
     "tests",
     "docs"
   ],
-  "lifecycle_hash": "9222bbe741c433526a8f9822c09b0f5b227772f6e16762868c1a49683dc00181",
+  "lifecycle_hash": "ee37eff1e12ba387df8693f5a10be101508f26bef0e28c06ef726764e341b348",
   "capabilities": [
     "desktop",
     "electron-main",
